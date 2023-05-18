@@ -27,6 +27,7 @@ namespace Synology.Api.Client.ApiDescription
                 FileStationListApi = { Path = infoQueryResponse.FileStationListApi?.Path ?? current.FileStationListApi.Path },
                 FileStationUploadApi = { Path = infoQueryResponse.FileStationUploadApi?.Path ?? current.FileStationUploadApi.Path },
                 FileStationSearchApi = { Path = infoQueryResponse.FileStationSearchApi?.Path ?? current.FileStationSearchApi.Path },
+                FileStationDownloadApi = { Path = infoQueryResponse.FileStationDownloadApi?.Path ?? current.FileStationDownloadApi.Path },
             };
         }
 
@@ -81,5 +82,12 @@ namespace Synology.Api.Client.ApiDescription
             "entry.cgi",
             2,
             FileStationSessionName);
+
+        public IApiInfo FileStationDownloadApi { get; set; } = new ApiInfo(
+            ApiNames.FileStationDownloadApiName,
+            "entry.cgi",
+            2,
+            FileStationSessionName);
+
     }
 }

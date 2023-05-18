@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -34,6 +35,18 @@ namespace Synology.Api.Client
             using var response = await _httpClient.GetAsync(uriBuilder.Uri);
             return await HandleSynologyResponse<T>(response, apiInfo, apiMethod);
         }
+
+        public async Task<Stream> GetStreamAsync(IApiInfo apiInfo, string apiMethod, Dictionary<string, string> queryParams, ISynologySession session = null)
+        {
+            var uri = GetBaseUri(_httpClient.BaseAddress, apiInfo.Path);
+            var uriBuilder = new UriBuilder(uri);
+
+            uriBuilder.Query = BuildQueryString(uriBuilder, apiInfo, apiMethod, queryParams, session);
+
+            var response = await _httpClient.GetAsync(uriBuilder.Uri);
+            return await response.Content.ReadAsStreamAsync();
+        }
+
 
         public async Task<T> PostAsync<T>(IApiInfo apiInfo, string apiMethod, HttpContent content, ISynologySession session = null)
         {

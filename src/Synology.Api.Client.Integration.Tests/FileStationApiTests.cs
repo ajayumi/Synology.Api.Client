@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using FluentAssertions;
@@ -99,8 +100,8 @@ namespace Synology.Api.Client.Integration.Tests
         public async void FileStationApi_UploadFileFromPath_Success()
         {
             // arrange
-            var filePath = ""; // TODO: set file path value
-            var destination = ""; // TODO: set destination value
+            var filePath = @"g:\wkk.png"; // TODO: set file path value
+            var destination = "/home/Photos/20230518"; // TODO: set destination value
 
             // act
             var uploadResponse = await _fixture
@@ -310,6 +311,21 @@ namespace Synology.Api.Client.Integration.Tests
 
             // assert
             listSearchResponse.Should().NotBeNull();
+        }
+
+
+        [Fact]
+        public async void FileStationApi_DownloadFileFromPath_Success()
+        {
+            // arrange
+            var path = "/home/Photos/20230518/wkk.png"; // TODO: set path value
+
+            // act
+            await _fixture
+               .Client
+               .FileStationApi()
+               .DownloadEndpoint()
+               .DownloadAsync(path, $"{DateTime.Now.ToString("yyyyMMddHHmmss")}.png");
         }
     }
 }
